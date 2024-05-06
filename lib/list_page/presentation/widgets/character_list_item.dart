@@ -31,10 +31,6 @@ class CharacterListItem extends StatelessWidget {
   }
 }
 
-// -----------------------------------------------------------------------------
-// Helpers
-// -----------------------------------------------------------------------------
-
 class _ItemDescription extends StatelessWidget {
   const _ItemDescription({required this.item});
 
@@ -65,7 +61,7 @@ class _ItemDescription extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   item.name ?? '',
-                  style: textTheme.bodyMedium!.copyWith(
+                  style: textTheme.bodyMedium?.copyWith(
                     color: colorScheme.onSurfaceVariant,
                     fontWeight: FontWeight.bold,
                   ),
@@ -73,14 +69,14 @@ class _ItemDescription extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   'Status: ${item.isAlive ? 'ALIVE' : 'DEAD'}',
-                  style: textTheme.labelSmall!.copyWith(
+                  style: textTheme.labelSmall?.copyWith(
                     color: item.isAlive ? Colors.lightGreen : Colors.redAccent,
                   ),
                 ),
                 const SizedBox(height: 4),
                 Text(
                   'Last location: ${item.location?.name ?? ''}',
-                  style: textTheme.labelSmall!.copyWith(
+                  style: textTheme.labelSmall?.copyWith(
                     color: colorScheme.onSurfaceVariant,
                   ),
                 ),

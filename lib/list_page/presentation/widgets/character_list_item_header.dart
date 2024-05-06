@@ -33,7 +33,7 @@ class CharacterListItemHeader extends StatelessWidget {
                   const SizedBox(width: 12),
                   Text(
                     titleText,
-                    style: tt.titleMedium!.copyWith(
+                    style: tt.titleMedium?.copyWith(
                       color: cs.onTertiaryContainer,
                       fontWeight: FontWeight.bold,
                     ),
