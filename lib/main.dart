@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_workshop/core/custom_theme.dart';
+import 'package:flutter_workshop/core/widgets/main_scaffold.dart';
 
 void main() async {
   runApp(
@@ -19,7 +20,7 @@ class MainApp extends StatelessWidget {
       theme: theme.getThemeData(),
       darkTheme: theme.getThemeDataDark(),
       debugShowCheckedModeBanner: false,
-      home: const Center(child: Text('Hello World!')),
+      home: const MainScaffold(),
     );
   }
 }
