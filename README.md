@@ -25,4 +25,4 @@ https://rickandmortyapi.com/api/character/?page
 `flutter packages pub run build_runner build --verbose --delete-conflicting-outputs`
 
 # 📝 Dotazník
-https://forms.gle/TScjYcDHtvrvGK4N6
+https://forms.gle/dicwUvxzpmRVUDQS9
