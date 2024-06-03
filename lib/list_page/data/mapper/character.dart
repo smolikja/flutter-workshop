@@ -14,4 +14,16 @@ class CharacterMapper {
       image: dto.image,
     );
   }
+
+  static CharacterDto? toDto(CharacterEntity? entity) {
+    if (entity == null) return null;
+
+    return CharacterDto(
+      id: entity.id,
+      name: entity.name,
+      status: entity.status,
+      location: LocationMapper.toDto(entity.location),
+      image: entity.image,
+    );
+  }
 }

@@ -22,6 +22,7 @@ dependencies:
   json_serializable: ^6.8.0
   material_color_utilities: ^0.8.0
   meta: ^1.11.0
+  riverpod: ^2.5.1
   shared_preferences: ^2.2.3
 
 dev_dependencies:
