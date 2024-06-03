@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_workshop/list_page/data/dto/character_list.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 
 abstract class Api {
   Future<CharacterListDto?> loadCharacters({int page = 0});
@@ -32,5 +31,6 @@ class ApiImpl implements Api {
         }
       }
     }
+    return null;
   }
 }
