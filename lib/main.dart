@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_workshop/core/custom_theme.dart';
 import 'package:flutter_workshop/core/widgets/main_scaffold.dart';
 
 void main() async {
   runApp(
-    const MainApp(),
+    const ProviderScope(
+      child: MainApp(),
+    ),
   );
 }
 

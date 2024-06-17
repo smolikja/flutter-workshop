@@ -1,94 +1,85 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_workshop/list_page/domain/entity/character.dart';
-import 'package:flutter_workshop/list_page/domain/entity/location.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_workshop/core/widgets/platform_activity_indicator.dart';
+import 'package:flutter_workshop/list_page/presentation/provider/list_page_state.dart';
+import 'package:flutter_workshop/list_page/presentation/provider/list_page_state_provider.dart';
 import 'package:flutter_workshop/list_page/presentation/widgets/character_list_item.dart';
 import 'package:flutter_workshop/list_page/presentation/widgets/character_list_item_header.dart';
 
-class ListPageContent extends StatefulWidget {
+class ListPageContent extends ConsumerStatefulWidget {
   const ListPageContent({super.key});
 
   @override
-  State<ListPageContent> createState() => _ListPageContentState();
+  ConsumerState<ListPageContent> createState() => _ListPageContentState();
 }
 
-class _ListPageContentState extends State<ListPageContent> {
-  late List<CharacterEntity> characters;
+class _ListPageContentState extends ConsumerState<ListPageContent> {
+  final _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
-    characters = _setCharacters();
+    _scrollController.addListener(_onScroll);
+  }
+
+  @override
+  void dispose() {
+    _scrollController
+      ..removeListener(_onScroll)
+      ..dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(left: 16, right: 16),
-      child: ListView.builder(
-        itemCount: characters.length,
-        itemBuilder: (context, index) {
-          final item = characters[index];
-          return index == 0
-              ? Column(
-                  children: [
-                    const CharacterListItemHeader(
-                      titleText: 'All Characters',
-                    ),
-                    CharacterListItem(item: item),
-                  ],
-                )
-              : CharacterListItem(item: item);
+      child: Consumer(
+        builder: (context, ref, child) {
+          final state = ref.watch(listPageStateProvider);
+          final characters = state.characters;
+          final hasEnded = state.hasReachedEnd;
+
+          return ListView.builder(
+            key: const ValueKey('list_page_list_key'),
+            controller: _scrollController,
+            itemCount: hasEnded ? characters.length : characters.length + 1,
+            itemBuilder: (context, index) {
+              if (index >= characters.length) {
+                return !hasEnded
+                    ? const PlatformActivityIndicator()
+                    : const SizedBox();
+              }
+
+              final item = characters[index];
+              return index == 0
+                  ? Column(
+                      children: [
+                        const CharacterListItemHeader(
+                          titleText: 'All Characters',
+                        ),
+                        CharacterListItem(item: item),
+                      ],
+                    )
+                  : CharacterListItem(item: item);
+            },
+          );
         },
       ),
     );
   }
 
-  List<CharacterEntity> _setCharacters() {
-    final locationCitadelOfRicks = LocationEntity(
-      name: 'Citadel of Ricks',
-      url: 'https://rickandmortyapi.com/api/location/3',
-    );
-    final locationEarth = LocationEntity(
-      name: 'Earth (Replacement Dimension)',
-      url: 'https://rickandmortyapi.com/api/location/20',
-    );
+  void _onScroll() {
+    if (_isBottom) {
+      ref.read(listPageStateProvider.notifier).fetchNextPage();
+    }
+  }
 
-    return [
-      CharacterEntity(
-        id: 1,
-        name: 'Rick Sanchez',
-        status: 'Alive',
-        image: 'https://rickandmortyapi.com/api/character/avatar/1.jpeg',
-        location: locationCitadelOfRicks,
-      ),
-      CharacterEntity(
-        id: 2,
-        name: 'Morty Smith',
-        status: 'Alive',
-        image: 'https://rickandmortyapi.com/api/character/avatar/2.jpeg',
-        location: locationCitadelOfRicks,
-      ),
-      CharacterEntity(
-        id: 3,
-        name: 'Summer Smith',
-        status: 'Alive',
-        image: 'https://rickandmortyapi.com/api/character/avatar/3.jpeg',
-        location: locationEarth,
-      ),
-      CharacterEntity(
-        id: 4,
-        name: 'Beth Smith',
-        status: 'Alive',
-        image: 'https://rickandmortyapi.com/api/character/avatar/4.jpeg',
-        location: locationEarth,
-      ),
-      CharacterEntity(
-        id: 5,
-        name: 'Jerry Smith',
-        status: 'Alive',
-        image: 'https://rickandmortyapi.com/api/character/avatar/5.jpeg',
-        location: locationEarth,
-      ),
-    ];
+  bool get _isBottom {
+    if (!_scrollController.hasClients) return false;
+
+    final maxScroll = _scrollController.position.maxScrollExtent;
+    final currentScroll = _scrollController.offset;
+    return currentScroll >= (maxScroll * 0.9);
   }
 }

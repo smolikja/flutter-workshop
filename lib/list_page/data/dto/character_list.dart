@@ -10,6 +10,7 @@ class CharacterListDto {
   factory CharacterListDto.fromJson(Map<String, dynamic> json) =>
       _$CharacterListDtoFromJson(json);
 
+  @JsonKey(name: 'results')
   final List<CharacterDto>? characters;
 
   Map<String, dynamic> toJson() => _$CharacterListDtoToJson(this);

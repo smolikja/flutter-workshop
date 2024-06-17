@@ -8,12 +8,12 @@ part of 'character_list.dart';
 
 CharacterListDto _$CharacterListDtoFromJson(Map<String, dynamic> json) =>
     CharacterListDto(
-      characters: (json['characters'] as List<dynamic>?)
+      characters: (json['results'] as List<dynamic>?)
           ?.map((e) => CharacterDto.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
 Map<String, dynamic> _$CharacterListDtoToJson(CharacterListDto instance) =>
     <String, dynamic>{
-      'characters': instance.characters,
+      'results': instance.characters,
     };
