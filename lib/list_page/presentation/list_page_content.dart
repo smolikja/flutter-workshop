@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_workshop/core/widgets/platform_activity_indicator.dart';
-import 'package:flutter_workshop/list_page/presentation/provider/list_page_state.dart';
 import 'package:flutter_workshop/list_page/presentation/provider/list_page_state_provider.dart';
 import 'package:flutter_workshop/list_page/presentation/widgets/character_list_item.dart';
 import 'package:flutter_workshop/list_page/presentation/widgets/character_list_item_header.dart';
